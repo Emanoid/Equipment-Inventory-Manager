@@ -1,0 +1,54 @@
+{% extends navigationPage %}
+{% load static %}
+{% block content %}
+    <!DOCTYPE html>
+
+        <head>
+            <title>ABC CORP Display User</title>
+              <link rel="stylesheet" type="text/css" href="{% static '/css/display.css' %}">
+
+        </head>
+        <body>
+          <div class="container1">
+            <div class="row justify-content-center">
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="box">
+                  <div class="user-heading">
+                    User Information
+                  </div>
+                  <div class="info">
+                      <div class="user-info" id="fname">First Name: {{user.firstName}}</div>
+                      <div class="user-info" id="lname">Last Name: {{user.lastName}}</div>
+                      <div class="user-info" id="email">Email: {{user.email}}</div>
+                      <div class="user-info" id="address">Address: {{user.address}}</div>
+                      <div class="user-info" id="phone">Phone: {{user.phone}}</div>
+                      <div class="user-info" id="location">Location: {{user.officeLocation}}</div>
+                      {% if user.is_active %}
+                        <div class="user-info" id="location">Is Active: Yes</div>
+                      {% else %}
+                        <div class="user-info" id="location">Is Active: No</div>
+                      {% endif %}
+
+                      {% if user.is_admin %}
+                          <div class="user-info" id="location">Is Admin: Yes</div>
+                      {% else %}
+                          <div class="user-info" id="location">Is Admin: No</div>
+                      {% endif %}
+
+
+
+
+                  </div>
+              </div>
+            </div>
+          </div>
+        </body>
+        <footer class="footer">
+            <div id="footer-text">
+                <p>Copyright &copy; {{date.year}} - ABC CORPORATION - All Rights Reserved</p>
+            </div>
+        </footer>
+    </html>
+
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends navigationPage %}
+{% load static %}
+{% block content %}
+    <!DOCTYPE html>
+
+        <head>
+            <title>ABC CORP Display Equipment</title>
+            <link rel="stylesheet" type="text/css" href="{% static '/css/display.css' %}">
+
+        </head>
+        <body>
+          <div class="container1">
+            <div class="row justify-content-center">
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="box">
+                  <div class="user-heading">
+                    Equipment Information
+                  </div>
+                  <div class="info">
+                      <div class="user-info" id="name">Name: {{equipment.name}}</div>
+                      <div class="user-info" id="type">Type: {{equipment.equipmentType}}</div>
+                      <div class="user-info" id="type">Office Location: {{equipment.officeLocation}}</div>
+                      <div class="user-info" id="purchaseDate">Purchase Date: {{equipment.purchaseDate}}</div>
+                      <div class="user-info" id="expiration">Expiration Date: {{equipment.expirationDate}}</div>
+                      <div class="user-info" id="floor">Floor: {{equipment.floor}}</div>
+                      <div class="user-info" id="phone">Vendor: {{equipment.vendor}}</div>
+                      {% if equipment.is_active %}
+                        <div class="user-info" id="is_active">Is Active: Yes</div>
+                      {% else %}
+                        <div class="user-info" id="is_active">Is Active: No</div>
+                      {% endif %}
+                      <div class="user-info" id="phone">Assigned To: {{equipment.assignedTo}}</div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </body>
+        <footer class="footer">
+            <div id="footer-text">
+                <p>Copyright &copy; {{date.year}} - ABC CORPORATION - All Rights Reserved</p>
+            </div>
+        </footer>
+    </html>
+
+
+{% endblock %}

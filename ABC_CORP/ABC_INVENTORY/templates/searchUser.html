@@ -1,0 +1,161 @@
+{% extends navigationPage %}
+{% load static %}
+{% block content %}
+    <!DOCTYPE html>
+
+        <head>
+            <title>ABC CORP Search User</title>
+            <link rel="stylesheet" type="text/css" href="{% static '/css/searchUser.css' %}">
+        </head>
+        <body>
+            <div class="body-card">
+              <p class="body-card-text"> Search User</p>
+                <div class="form-container">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-25">
+                            <label class="form-text" >First Name</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="text" name="first-name" placeholder="Enter First Name">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-25">
+                            <label class="form-text" >Last Name</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="text" name="last-name" placeholder="Enter Last Name">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-25">
+                            <label class="form-text" >Email</label>
+                            </div>
+                            <div class="col-75">
+                                <div class="popuptext" id="myPopup"></div>
+                                <input type="text" id="inputEmail" name="email" placeholder="email@gmail.com">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-25">
+                            <label class="form-text" >Choose Location</label>
+                            </div>
+                            <div class="col-75">
+
+                              <select name="location">
+                              {% for location in locations %}
+                                <option value={{location.id}}>{{location.name}}</option>
+                              {% endfor %}
+                              <option value=-1 selected="selected">Any Location</option>
+                              </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-25">
+                            <label class="form-text" >User is Admin</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="checkbox" name="is_admin">
+                                <br>
+                            </div>
+                        </div>
+                        {% if isAdmin %}
+                            <div class="row">
+                                <div class="col-25">
+                                <label class="form-text" >User is Deactivated</label>
+                                </div>
+                                <div class="col-75">
+                                    <input type="checkbox" name="is_inactive">
+                                    <br>
+                                </div>
+                            </div>
+                        {%endif%}
+
+                        <input type="submit" class="search-btn" value="Search">
+                    </form>
+                </div>
+                {% if hasAdded %}
+                    <div id="search-query">
+                        <h3>Search Query:</h3>
+                        <p>First Name: {{ selectedFName }}</p>
+                        <p>Last Name: {{ selectedLName }}</p>
+                        <p>Email: {{ selectedEmail }}</p>
+                        <p>Location: {{selectedLocation}}</p>
+                        <p>Is Admin? : {{selectedIsAdmin}}</p>
+                        <p>Is Deactivated? : {{selectedIsInactive}}</p>
+                        <p>Total Query Count: {{ totalQueryCount }}</p>
+                    </div>
+                    {% for user in users %}
+                        <div class="short-description">
+                            <p id="short-description-label">
+                              First Name
+                            </p>
+                            <p id="short-description-label">
+                              Last Name
+                            </p>
+                            <p id="short-description-label">
+                              Email
+                            </p>
+
+                            <p id="short-description-links">
+                                <a href="{% url 'updateUser' userId=user.id %}">Update</a> |
+                                {% if selectedIsInactive %}
+                                    <a href="{% url 'activateUser' userId=user.id %}">Activate</a> |
+                                {%else%}
+                                    <a href="{% url 'deactivateUser' userId=user.id %}">Deactivate</a> |
+                                {%endif%}
+                                <a href="{% url 'displayUser' userId=user.id %}">View</a>
+                            </p><br/><br/><br/>
+                            <p id="short-description-value">
+                                {{user.firstName}}
+                            </p>
+                            <p id="short-description-value">
+                                {{user.lastName}}
+                            </p>
+                            <p id="short-description-value">
+                                {{user.email}}
+                            </p>
+
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </body>
+        <footer class="footer">
+            <div id="footer-text">
+                <p>Copyright &copy; {{date.year}} - ABC CORPORATION - All Rights Reserved</p>
+            </div>
+        </footer>
+        <script>
+            $('a.search.dropbtn').addClass('active')
+
+            document.getElementById("inputEmail").onkeyup = function () {validateEmail()};
+            function validateEmail(){
+              document.getElementById("inputEmail").style.color="red";
+              var email = document.getElementById("inputEmail")
+              var regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+              document.getElementById("myPopup").innerHTML="Invalid Email ";
+              document.getElementById("myPopup").style.color = "red";
+              document.getElementById("myPopup").style.fontFamily = "Georgia";
+              if(email.value == ""){
+                document.getElementById("myPopup").innerHTML="";
+              }
+              if(regexEmail.test(email.value)){
+                document.getElementById("inputEmail").style.color="black";
+                document.getElementById("myPopup").innerHTML=" ";
+              }
+            }
+        </script>
+    </html>
+
+
+{% endblock %}

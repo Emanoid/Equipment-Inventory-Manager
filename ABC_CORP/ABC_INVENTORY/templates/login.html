@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/authentication.css' %}">
+   <head>
+     <meta charset="utf-8">
+      <title>ABC CORP LOGIN</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	  <script>
+		function hoverIn(){
+			document.getElementById("submit-btn").style.backgroundColor="black";
+			document.getElementById("submit-btn").style.bordercolor="black";
+		}
+
+		function hoverOut(){
+			document.getElementById("submit-btn").style.backgroundColor="#6495ED";
+		}
+     </script>
+   </head>
+   <body>    
+      <div class="heading-text">
+      	Welcome to ABC Corp.
+      </div>
+
+      <section class="container1">
+        <section class="row justify-content-center">
+
+          <section class="col-12 col-sm-6 col-md-3">
+
+            <form method="post">
+              {% csrf_token %}
+
+                <div class="mb-3">
+                  <label class="form-label">Email address</label>
+                  <div class="popuptext" id="myPopup"></div>
+                  <input type="email" class="form-control" name="email" onkeyup="validateEmail" id="inputEmail" placeholder="email@gmail.com">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+                </div>
+
+                <button type="submit" onmouseover="hoverIn()" onmouseout="hoverOut()" class="btn btn-primary btn-block" id="submit-btn">Login</button>
+
+				{% for message in messages %}
+					<p class="form-label">{{message}}</p>
+				{% endfor %}
+
+                <div class="mb-3">
+                  <label class="form-label">Don't have an account yet?</label>
+                  <a href="{% url 'register' %}">Register</a>
+                </div>
+
+              </form>
+
+          </section>
+
+        </section>
+
+
+      </section>
+   </body>
+
+   <script>
+    document.getElementById("inputEmail").onkeyup = function () {validateEmail()};
+    function validateEmail(){
+      document.getElementById("inputEmail").style.color="red";
+      var email = document.getElementById("inputEmail")
+      var regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      document.getElementById("myPopup").innerHTML="Invalid Email ";
+      document.getElementById("myPopup").style.color = "red";
+      document.getElementById("myPopup").style.fontFamily = "Georgia";
+      if(email.value == ""){
+        document.getElementById("myPopup").innerHTML="";
+      }
+      if(regexEmail.test(email.value)){
+        document.getElementById("inputEmail").style.color="black";
+        document.getElementById("myPopup").innerHTML=" ";
+      }
+    }
+   </script>
+
+</html>
